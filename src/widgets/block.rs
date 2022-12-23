@@ -55,6 +55,8 @@ pub struct Block<'a> {
     /// Type of the border. The default is plain lines but one can choose to have rounded corners
     /// or doubled lines instead.
     border_type: BorderType,
+    /// attach point of other widgets to the border
+    border_attach: Borders,
     /// Widget style
     style: Style,
 }
@@ -67,6 +69,7 @@ impl<'a> Default for Block<'a> {
             borders: Borders::NONE,
             border_style: Default::default(),
             border_type: BorderType::Plain,
+            border_attach: Borders::NONE,
             style: Default::default(),
         }
     }
@@ -115,6 +118,11 @@ impl<'a> Block<'a> {
 
     pub fn border_type(mut self, border_type: BorderType) -> Block<'a> {
         self.border_type = border_type;
+        self
+    }
+
+    pub fn border_attach(mut self, flag: Borders) -> Block<'a> {
+        self.border_attach = flag;
         self
     }
 
@@ -181,23 +189,55 @@ impl<'a> Widget for Block<'a> {
 
         // Corners
         if self.borders.contains(Borders::RIGHT | Borders::BOTTOM) {
+            let mut symbol = symbols.bottom_right;
+            if self.border_attach.intersects(Borders::BOTTOM & Borders::RIGHT) {
+                symbol = symbols.cross
+            } else if self.border_attach.intersects(Borders::BOTTOM) {
+                symbol = symbols.vertical_left
+            } else if self.border_attach.intersects(Borders::RIGHT) {
+                symbol = symbols.horizontal_up
+            }
             buf.get_mut(area.right() - 1, area.bottom() - 1)
-                .set_symbol(symbols.bottom_right)
+                .set_symbol(symbol)
                 .set_style(self.border_style);
         }
         if self.borders.contains(Borders::RIGHT | Borders::TOP) {
+            let mut symbol = symbols.top_right;
+            if self.border_attach.intersects(Borders::TOP & Borders::RIGHT) {
+                symbol = symbols.cross
+            } else if self.border_attach.intersects(Borders::TOP) {
+                symbol = symbols.vertical_left
+            } else if self.border_attach.intersects(Borders::RIGHT) {
+                symbol = symbols.horizontal_down
+            }
             buf.get_mut(area.right() - 1, area.top())
-                .set_symbol(symbols.top_right)
+                .set_symbol(symbol)
                 .set_style(self.border_style);
         }
         if self.borders.contains(Borders::LEFT | Borders::BOTTOM) {
+            let mut symbol = symbols.bottom_left;
+            if self.border_attach.intersects(Borders::BOTTOM & Borders::LEFT) {
+                symbol = symbols.cross
+            } else if self.border_attach.intersects(Borders::BOTTOM) {
+                symbol = symbols.vertical_right
+            } else if self.border_attach.intersects(Borders::LEFT) {
+                symbol = symbols.horizontal_up
+            }
             buf.get_mut(area.left(), area.bottom() - 1)
-                .set_symbol(symbols.bottom_left)
+                .set_symbol(symbol)
                 .set_style(self.border_style);
         }
         if self.borders.contains(Borders::LEFT | Borders::TOP) {
+            let mut symbol = symbols.top_left;
+            if self.border_attach.intersects(Borders::TOP & Borders::LEFT) {
+                symbol = symbols.cross
+            } else if self.border_attach.intersects(Borders::TOP) {
+                symbol = symbols.vertical_left
+            } else if self.border_attach.intersects(Borders::LEFT) {
+                symbol = symbols.horizontal_down
+            }
             buf.get_mut(area.left(), area.top())
-                .set_symbol(symbols.top_left)
+                .set_symbol(symbol)
                 .set_style(self.border_style);
         }
 

@@ -140,7 +140,7 @@ where
                 .map(|i| ListItem::new(vec![Spans::from(Span::raw(*i))]))
                 .collect();
             let tasks = List::new(tasks)
-                .block(Block::default().borders(Borders::ALL).title("List"))
+                .block(Block::default().borders(Borders::ALL).border_attach(Borders::RIGHT).title("List"))
                 .highlight_style(Style::default().add_modifier(Modifier::BOLD))
                 .highlight_symbol("> ");
             f.render_stateful_widget(tasks, chunks[0], &mut app.tasks.state);
@@ -168,7 +168,7 @@ where
                     ListItem::new(content)
                 })
                 .collect();
-            let logs = List::new(logs).block(Block::default().borders(Borders::ALL).title("List"));
+            let logs = List::new(logs).block(Block::default().borders(Borders::LEFT.complement()).title("List"));
             f.render_stateful_widget(logs, chunks[1], &mut app.logs.state);
         }
 
