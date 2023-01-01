@@ -148,6 +148,16 @@ impl<'a> Widget for Paragraph<'a> {
             return;
         }
 
+        let widget_empty = Text::raw(" ".repeat(text_area.width as usize));
+        for i in 0..text_area.height {
+            buf.set_spans(
+                text_area.x,
+                text_area.y + i as u16,
+                &widget_empty.lines[0],
+                text_area.width,
+            );
+        }
+
         let style = self.style;
         let mut styled = self.text.lines.iter().flat_map(|spans| {
             spans
