@@ -170,7 +170,7 @@ impl<'a> List<'a> {
 impl<'a> StatefulWidget for List<'a> {
     type State = ListState;
 
-    fn render(mut self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
+    fn render(mut self, area: Rect, buf: &mut Buffer, state: &Self::State) {
         buf.set_style(area, self.style);
         let list_area = match self.block.take() {
             Some(b) => {
@@ -191,7 +191,7 @@ impl<'a> StatefulWidget for List<'a> {
         let list_height = list_area.height as usize;
 
         let (start, end) = self.get_items_bounds(state.selected, state.offset, list_height);
-        state.offset = start;
+        // state.offset = start;
 
         let highlight_symbol = self.highlight_symbol.unwrap_or("");
         let blank_symbol = " ".repeat(highlight_symbol.width());
@@ -258,7 +258,7 @@ impl<'a> StatefulWidget for List<'a> {
 
 impl<'a> Widget for List<'a> {
     fn render(self, area: Rect, buf: &mut Buffer) {
-        let mut state = ListState::default();
-        StatefulWidget::render(self, area, buf, &mut state);
+        let state = ListState::default();
+        StatefulWidget::render(self, area, buf, &state);
     }
 }
