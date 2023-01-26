@@ -103,14 +103,6 @@ impl Layout {
         self
     }
 
-    pub fn margins(mut self, margin: (u16, u16)) -> Layout {
-        self.margin = Margin {
-            horizontal: margin.0,
-            vertical: margin.1,
-        };
-        self
-    }
-
     pub fn horizontal_margin(mut self, horizontal: u16) -> Layout {
         self.margin.horizontal = horizontal;
         self
