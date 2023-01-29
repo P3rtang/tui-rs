@@ -55,6 +55,12 @@ impl<'a> ListItem<'a> {
     }
 }
 
+impl<'a> From<String> for ListItem<'a> {
+    fn from(value: String) -> Self {
+        Self { content: value.into(), style: Style::default() }
+    }
+}
+
 /// A widget to display several items among which one can be selected (optional)
 ///
 /// # Examples
