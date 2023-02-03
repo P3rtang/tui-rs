@@ -182,3 +182,7 @@ pub trait StatefulWidget {
     type State;
     fn render(self, area: Rect, buf: &mut Buffer, state: &Self::State);
 }
+
+pub trait WidgetState {
+
+}
