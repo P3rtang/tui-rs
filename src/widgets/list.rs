@@ -9,6 +9,8 @@ use crate::{
 };
 use unicode_width::UnicodeWidthStr;
 
+use super::WidgetState;
+
 #[derive(Debug, Clone, Default)]
 pub struct ListState {
     offset: RefCell<usize>,
@@ -27,6 +29,8 @@ impl ListState {
         }
     }
 }
+
+impl WidgetState for ListState {}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ListItem<'a> {
